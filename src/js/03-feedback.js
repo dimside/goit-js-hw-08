@@ -36,7 +36,7 @@ function getLocalStorageInfo() {
       message: messageValue,
     });
   } else {
-    return (formObject = false);
+    formObject = false;
   }
 }
 getLocalStorageInfo();
