@@ -26,8 +26,12 @@ function getLocalStorageInfo() {
     const { email: emailValue, message: messageValue } = JSON.parse(
       localStorage.getItem(STORAGE_KEY)
     );
-    emailEl.value = emailValue;
-    messageEl.value = messageValue;
+    if (emailValue) {
+      emailEl.value = emailValue;
+    }
+    if (messageValue) {
+      messageEl.value = messageValue;
+    }
 
     return feedbackObj;
   }
