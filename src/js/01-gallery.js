@@ -4,11 +4,9 @@ import { galleryItems } from './gallery-items';
 
 console.log(galleryItems);
 
-import SimpleLightbox from "simplelightbox";
+import SimpleLightbox from 'simplelightbox';
 // Дополнительный импорт стилей
-import "simplelightbox/dist/simple-lightbox.min.css";
-
-
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const galleryEL = document.querySelector('.gallery');
 
@@ -22,16 +20,8 @@ galleryEL.innerHTML = galleryItems
   )
   .join('');
 
-galleryEL.addEventListener('click', onGalleryItemClick);
-
-function onGalleryItemClick(evt) {
-  evt.preventDefault();
-
-  if (evt.currentTarget === evt.target) return;
-
-  let gallery = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionPosition: 'bottom',
-    captionDelay: 250,
-  });
-}
+let gallery = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+});

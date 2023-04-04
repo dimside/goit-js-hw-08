@@ -1,40 +1,35 @@
 import throttle from 'lodash.throttle';
 
+const STORAGE_KEY = 'feedback-form-state';
+const THROTTLE_TIME = 500;
+
 const feedbackFormEL = document.querySelector('.feedback-form');
 const emailEl = document.querySelector("[name = 'email']");
 const messageEl = document.querySelector("[name = 'message']");
 
+const feedbackObj = {};
 // ======================== Input-Form Listener ===========================
-feedbackFormEL.addEventListener('input', throttle(onFormElInput, 500));
+feedbackFormEL.addEventListener(
+  'input',
+  throttle(onFormElInput, THROTTLE_TIME)
+);
 
 function onFormElInput(evt) {
-  try {
-    const {
-      elements: { email, message },
-    } = evt.currentTarget;
-
-    const feedbackObj = {
-      email: email.value,
-      message: message.value,
-    };
-    localStorage.setItem('feedback-form-state', JSON.stringify(feedbackObj));
-  } catch {}
+  feedbackObj[evt.target.name] = evt.target.value;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(feedbackObj));
 }
 // ======================================================================
 
 // ================= Page-load Form-input value ====================
 function getLocalStorageInfo() {
-  if (JSON.parse(localStorage.getItem('feedback-form-state'))) {
+  if (JSON.parse(localStorage.getItem(STORAGE_KEY))) {
     const { email: emailValue, message: messageValue } = JSON.parse(
-      localStorage.getItem('feedback-form-state')
+      localStorage.getItem(STORAGE_KEY)
     );
     emailEl.value = emailValue;
     messageEl.value = messageValue;
 
-    return {
-      email: emailValue,
-      message: messageValue,
-    };
+    return feedbackObj;
   }
 }
 getLocalStorageInfo();
@@ -46,11 +41,14 @@ feedbackFormEL.addEventListener('submit', onFormElSubmit);
 function onFormElSubmit(evt) {
   evt.preventDefault();
 
-  if (getLocalStorageInfo()) {
-    console.log(getLocalStorageInfo());
+  if (emailEl.value && messageEl.value) {
+    if (getLocalStorageInfo()) {
+      console.log(getLocalStorageInfo());
+    }
+    feedbackFormEL.reset();
+    localStorage.removeItem(STORAGE_KEY);
+  } else {
+    alert('All fields must be filled');
   }
-
-  feedbackFormEL.reset();
-  localStorage.clear();
 }
 // =======================================================
