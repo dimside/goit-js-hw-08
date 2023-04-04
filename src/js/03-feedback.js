@@ -31,12 +31,10 @@ function getLocalStorageInfo() {
     emailEl.value = emailValue;
     messageEl.value = messageValue;
 
-    return (formObject = {
+    return {
       email: emailValue,
       message: messageValue,
-    });
-  } else {
-    formObject = false;
+    };
   }
 }
 getLocalStorageInfo();
@@ -48,9 +46,8 @@ feedbackFormEL.addEventListener('submit', onFormElSubmit);
 function onFormElSubmit(evt) {
   evt.preventDefault();
 
-  getLocalStorageInfo();
-  if (formObject) {
-    console.log(formObject);
+  if (getLocalStorageInfo()) {
+    console.log(getLocalStorageInfo());
   }
 
   feedbackFormEL.reset();
