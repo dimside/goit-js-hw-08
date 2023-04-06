@@ -7,7 +7,7 @@ const feedbackFormEL = document.querySelector('.feedback-form');
 const emailEl = document.querySelector("[name = 'email']");
 const messageEl = document.querySelector("[name = 'message']");
 
-const feedbackObj = {};
+let feedbackObj = {};
 // ======================== Input-Form Listener ===========================
 feedbackFormEL.addEventListener(
   'input',
@@ -26,6 +26,7 @@ function getLocalStorageInfo() {
     const { email: emailValue, message: messageValue } = JSON.parse(
       localStorage.getItem(STORAGE_KEY)
     );
+    feedbackObj = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (emailValue) {
       emailEl.value = emailValue;
     }
@@ -48,6 +49,7 @@ function onFormElSubmit(evt) {
   if (emailEl.value && messageEl.value) {
     if (getLocalStorageInfo()) {
       console.log(getLocalStorageInfo());
+      feedbackObj = {};
     }
     feedbackFormEL.reset();
     localStorage.removeItem(STORAGE_KEY);
